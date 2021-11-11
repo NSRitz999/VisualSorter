@@ -8,6 +8,7 @@ package visualsorter.ui;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,35 +21,35 @@ public class SortingGUI extends BorderPane {
     
     public SortingGUI(){
         toolBar = new HBox();
-        sliderHBox = new HBox();
         rectSliderBox = new VBox();
         
         createSliderBox();
         
         toolBar.getChildren().addAll(rectSliderBox);
+        toolBar.setAlignment(Pos.CENTER);
         
         super.setBottom(toolBar);
-        super.setWidth(USE_PREF_SIZE);
-        super.setHeight(USE_PREF_SIZE);
         BorderPane.setAlignment(super.getBottom(), Pos.CENTER);
     }
     
     private void createSliderBox(){
         sliderLabel = new Label("Number of Rectangles:");
-        rectSlider = new Slider(1, 100, 25);
-        rectSlider.setShowTickMarks(true);
-        rectSlider.setBlockIncrement(1);
-        sliderHBox.getChildren().addAll(rectSlider);
-        rectSliderBox.getChildren().addAll(sliderLabel, sliderHBox);
+        rectSlider = new Spinner(1, 100, 25);
+        
+        rectSlider.setPrefWidth(100);
+        
+        rectSliderBox.getChildren().addAll(sliderLabel, rectSlider);
+        rectSliderBox.setAlignment(Pos.CENTER);
+        rectSliderBox.setSpacing(5);
     }
     
     private final HBox toolBar;
     
-    private final HBox sliderHBox;
-    
     private final VBox rectSliderBox;
     
-    private Slider rectSlider;
+    private Spinner rectSlider;
     
     private Label sliderLabel;
+    
+    private Label currNumRectangles;
 }
