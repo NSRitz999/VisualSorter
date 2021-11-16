@@ -6,6 +6,7 @@
 package visualsorter.ui;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
@@ -22,13 +23,18 @@ public class SortingGUI extends BorderPane {
     public SortingGUI(){
         toolBar = new HBox();
         rectSliderBox = new VBox();
+        generateRectsBtn = new Button("Generate");
+        sorter = new SortingWidget(25);
         
         createSliderBox();
+        addHandlers();
         
-        toolBar.getChildren().addAll(rectSliderBox);
-        toolBar.setAlignment(Pos.CENTER);
+        toolBar.getChildren().addAll(rectSliderBox, generateRectsBtn);
+        toolBar.setAlignment(Pos.BOTTOM_CENTER);
+        toolBar.setSpacing(10);
         
         super.setBottom(toolBar);
+        super.setCenter(sorter);
         BorderPane.setAlignment(super.getBottom(), Pos.CENTER);
     }
     
@@ -43,11 +49,21 @@ public class SortingGUI extends BorderPane {
         rectSliderBox.setSpacing(5);
     }
     
+    private void addHandlers(){
+        generateRectsBtn.setOnAction(e -> {
+            sorter.update((int) rectSlider.getValue());
+        });
+    }
+    
+    private SortingWidget sorter;
+    
     private final HBox toolBar;
     
     private final VBox rectSliderBox;
     
     private Spinner rectSlider;
+    
+    private Button generateRectsBtn;
     
     private Label sliderLabel;
     

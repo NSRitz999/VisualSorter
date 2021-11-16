@@ -29,7 +29,7 @@ public class VisualSorter extends Application {
         
         root.setAlignment(Pos.BASELINE_CENTER);
         
-        Scene scene = new Scene(root, 720, 480);
+        Scene scene = new Scene(root, 700, 600);
         
         primaryStage.setTitle("Visual Sorter");
         primaryStage.setScene(scene);
