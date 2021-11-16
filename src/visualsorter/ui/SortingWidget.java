@@ -6,7 +6,7 @@
 package visualsorter.ui;
 
 import java.util.ArrayList;
-import javafx.geometry.Pos;
+//import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,11 +20,10 @@ public class SortingWidget extends Pane {
         numOfRects = num;
         currentData = new ArrayList();
         baseLineRect = new Rectangle(700, 5);
+        rectPane = new Pane();
+        
         LHSBar = new Rectangle(5, 500);
         RHSBar = new Rectangle(5, 500);
-        
-        createRectangles();
-        
         baseLineRect.setFill(Color.GRAY);
         baseLineRect.setY(500);
         LHSBar.setFill(Color.CADETBLUE);
@@ -32,13 +31,14 @@ public class SortingWidget extends Pane {
         RHSBar.setFill(Color.CADETBLUE);
         RHSBar.setX(650);
         
-        super.getChildren().addAll(baseLineRect, LHSBar, RHSBar);
+        super.getChildren().addAll(baseLineRect, LHSBar, RHSBar, rectPane);
+        createRectangles(); 
     }
     
     public void update(int num){
         numOfRects = num;
-        super.getChildren().clear();
-        super.getChildren().addAll(baseLineRect, LHSBar, RHSBar);
+        rectPane.getChildren().clear();
+//        super.getChildren().addAll(baseLineRect, LHSBar, RHSBar);
         currentData.clear();
         createRectangles();
     }
@@ -47,7 +47,7 @@ public class SortingWidget extends Pane {
         for(int i = 0; i < numOfRects; i++){
             int newData = generateRandom();
             sortingRect newRect = new sortingRect(newData, numOfRects);
-            super.getChildren().add(newRect);
+            rectPane.getChildren().add(newRect);
             newRect.setX(i * 6 + 50);
             newRect.setY(500 - newRect.getHeight());
             currentData.add(newData);
@@ -79,6 +79,31 @@ public class SortingWidget extends Pane {
         private final int data;
     }
     
+    public void bubbleSort(){
+        for(int i = 0; i < numOfRects; i++){
+            ((sortingRect) rectPane.getChildren().get(i)).setFill(Color.RED);
+            for(int j = 0; j < numOfRects; j++){
+                if(((sortingRect) rectPane.getChildren().get(j)).getData() >
+                        ((sortingRect) rectPane.getChildren().get(i)).getData()){
+                    swap((sortingRect) rectPane.getChildren().get(j),
+                            (sortingRect) rectPane.getChildren().get(i));
+                    ((sortingRect) rectPane.getChildren().get(i)).setFill(Color.RED);
+                }
+            }
+        }
+    }
+    
+    private void swap(sortingRect lhsRect, sortingRect rhsRect){
+        int i = lhsRect.getData();
+        System.out.println("LHS: " + lhsRect.getData() + "; RHS: " + rhsRect.getData());
+        lhsRect.setFill(Color.GREEN);
+        rhsRect.setFill(Color.GREEN);
+        lhsRect.setX(rhsRect.getX() * 6 + 50);
+        rhsRect.setX(i * 6 + 50);
+        lhsRect.setFill(Color.BLACK);
+        rhsRect.setFill(Color.BLACK);
+    }
+    
     private int numOfRects;
     
     private ArrayList currentData;
@@ -88,4 +113,6 @@ public class SortingWidget extends Pane {
     private final Rectangle LHSBar;
     
     private final Rectangle RHSBar;
+    
+    private Pane rectPane;
 }
