@@ -57,6 +57,7 @@ public class SortingGUI extends BorderPane {
         
         bubbleSortBtn.setOnAction(e -> {
             sorter.bubbleSort();
+            
         });
     }
     
