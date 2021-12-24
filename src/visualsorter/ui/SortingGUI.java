@@ -25,12 +25,13 @@ public class SortingGUI extends BorderPane {
         rectSliderBox = new VBox();
         generateRectsBtn = new Button("Generate");
         bubbleSortBtn = new Button("Bubble Sort");
-        sorter = new SortingWidget(25);
+        quickSortBtn = new Button("Quick Sort");
+        sorter = new AnimationController(25);
         
         createSliderBox();
         addHandlers();
         
-        toolBar.getChildren().addAll(rectSliderBox, generateRectsBtn, bubbleSortBtn);
+        toolBar.getChildren().addAll(rectSliderBox, generateRectsBtn, bubbleSortBtn, quickSortBtn);
         toolBar.setAlignment(Pos.BOTTOM_CENTER);
         toolBar.setSpacing(10);
         
@@ -61,7 +62,7 @@ public class SortingGUI extends BorderPane {
         });
     }
     
-    private SortingWidget sorter;
+    private AnimationController sorter;
     
     private final HBox toolBar;
     
@@ -72,6 +73,8 @@ public class SortingGUI extends BorderPane {
     private Button generateRectsBtn;
     
     private Button bubbleSortBtn;
+    
+    private Button quickSortBtn;
     
     private Label sliderLabel;
     

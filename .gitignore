@@ -1,2 +1,5 @@
 /dist/
 /build/
+/VisualSorter/build/
+/VisualSorter/dist/
+/VisualSorter/nbproject/private/

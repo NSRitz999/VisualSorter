@@ -8,6 +8,7 @@ package visualsorter.ui;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 //import javafx.geometry.Pos;
@@ -15,17 +16,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import visualsorter.util.BubbleSorter;
 
 /**
  *
  * @author Matthew Sawchuk
  */
-public class SortingWidget extends Pane {
-    public SortingWidget(int num){
+public class AnimationController extends Pane {
+    public AnimationController(int num){
         numOfRects = num;
         currentData = new ArrayList();
         baseLineRect = new Rectangle(700, 5);
         rectPane = new Pane();
+        seqT = new SequentialTransition();
         
         LHSBar = new Rectangle(5, 500);
         RHSBar = new Rectangle(5, 500);
@@ -43,7 +46,6 @@ public class SortingWidget extends Pane {
     public void update(int num){
         numOfRects = num;
         rectPane.getChildren().clear();
-//        super.getChildren().addAll(baseLineRect, LHSBar, RHSBar);
         currentData.clear();
         createRectangles();
     }
@@ -57,20 +59,17 @@ public class SortingWidget extends Pane {
             newRect.setY(500 - newRect.getHeight());
             currentData.add(newData);
         }
-        System.out.println("Finished creating all rectangles!");
     }
     
     private int generateRandom(){
         int num = (int) (Math.random() * (500 - 1) + 1);
         while(currentData.contains(num)){
-//            System.out.println("Found rand in curr data!");
             num = (int) (Math.random() * (500 - 1) + 1);
-//            System.out.println("New int attempt: " + num);
         }
         return num;
     }
     
-    private class sortingRect extends Rectangle{
+    public class sortingRect extends Rectangle{
         public sortingRect(int dat, int numRects){
             data = dat;
             super.setWidth(5);
@@ -85,57 +84,29 @@ public class SortingWidget extends Pane {
     }
     
     public void bubbleSort(){
-        System.out.println("beggining bubble sort!");
-        System.out.println("Data set we are working with: ");
-        
-        for(int i = 0; i < numOfRects; i++){
-            System.out.println("Data[" + i + "]: " + ((sortingRect) rectPane.getChildren().get(i)).getData());
-        }
-        
-            for(int i = 0; i < numOfRects; i++){
-                ((sortingRect) rectPane.getChildren().get(i)).setFill(Color.RED);
-                for(int j = i; j < numOfRects; j++){
-                    if(((sortingRect) rectPane.getChildren().get(j)).getData() <
-                            ((sortingRect) rectPane.getChildren().get(i)).getData()){
-                        swap((sortingRect) rectPane.getChildren().get(j),
-                                (sortingRect) rectPane.getChildren().get(i), j, i);
-                        ((sortingRect) rectPane.getChildren().get(i)).setFill(Color.RED);
-                    }
-                }
-            }
-
-        System.out.println("Finished bubble sort!");
+        displayRectangles();
+        BubbleSorter bs = new BubbleSorter(rectPane);
+        SequentialTransition sq = new SequentialTransition();
+        sq.getChildren().addAll(bs.beginSort());
+        sq.play();
+        displayRectangles();
     }
     
-    private void swap(sortingRect lhsRect, sortingRect rhsRect, int i, int j){
-        System.out.println("LHS: " + lhsRect.getData() + "; RHS: " + rhsRect.getData());
-        lhsRect.setFill(Color.GREEN);
-        rhsRect.setFill(Color.GREEN);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask(){
-            @Override
-            public void run(){
-            double swapX = lhsRect.getX();
-            lhsRect.setX(rhsRect.getX());
-            rhsRect.setX(swapX);
-            }
-        }, 500);
-        
-        lhsRect.setFill(Color.BLACK);
-        rhsRect.setFill(Color.BLACK);
-        rectPane.getChildren().removeAll(lhsRect, rhsRect);
-        if(j > rectPane.getChildren().size()){
-            rectPane.getChildren().add(lhsRect);
+    private void displayRectangles(){
+        System.out.print("Data{");
+        for(int i = 0; i < rectPane.getChildren().size(); i++){
+            System.out.print(((sortingRect) rectPane.getChildren().get(i)).getData());
+            if(i != rectPane.getChildren().size() - 1)
+                System.out.print(", ");
         }
-        else{
-            rectPane.getChildren().add(j, lhsRect);
-        }
-        rectPane.getChildren().add(i, rhsRect);
+        System.out.print("}\n");
     }
     
     private int numOfRects;
     
     private ArrayList currentData;
+    
+    private final SequentialTransition seqT;
     
     private final Rectangle baseLineRect;
     
@@ -144,4 +115,6 @@ public class SortingWidget extends Pane {
     private final Rectangle RHSBar;
     
     private Pane rectPane;
+    
+    private final double TRANSITION_DURATION = 10.0;
 }
