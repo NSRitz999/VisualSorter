@@ -17,6 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import visualsorter.util.BubbleSorter;
+import visualsorter.util.InsertionSorter;
+import visualsorter.util.QuickSorter;
 
 /**
  *
@@ -90,6 +92,25 @@ public class AnimationController extends Pane {
         sq.getChildren().addAll(bs.beginSort());
         sq.play();
         displayRectangles();
+    }
+    
+    public void quickSort(){
+        QuickSorter qs = new QuickSorter(rectPane);
+        SequentialTransition sq = new SequentialTransition();
+        sq.getChildren().addAll(qs.beginSort());
+        sq.play();
+    }
+    
+    public void insertionSort(){
+        System.out.print("Pre-");
+        displayRectangles();
+        InsertionSorter is = new InsertionSorter(rectPane);
+        SequentialTransition sq = new SequentialTransition();
+        sq.getChildren().addAll(is.beginSort());
+        sq.play();
+        System.out.print("Post-");
+        displayRectangles();
+        
     }
     
     private void displayRectangles(){
