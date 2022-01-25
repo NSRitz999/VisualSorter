@@ -18,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import visualsorter.util.BubbleSorter;
 import visualsorter.util.InsertionSorter;
+import visualsorter.util.MergeSorter;
 import visualsorter.util.QuickSorter;
 
 /**
@@ -111,6 +112,14 @@ public class AnimationController extends Pane {
         System.out.print("Post-");
         displayRectangles();
         
+    }
+    
+    public void mergeSort(){
+        MergeSorter ms = new MergeSorter(rectPane);
+        SequentialTransition sq = new SequentialTransition();
+        sq.getChildren().addAll(ms.beginSort());
+        sq.play();
+        displayRectangles();
     }
     
     private void displayRectangles(){

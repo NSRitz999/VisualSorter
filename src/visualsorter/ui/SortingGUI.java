@@ -86,6 +86,9 @@ public class SortingGUI extends BorderPane {
                 case "Insertion Sort":
                     sorter.insertionSort();
                     break;
+                case "Merge Sort":
+                    sorter.mergeSort();
+                    break;
                 default:
                     break;
                     
@@ -96,7 +99,8 @@ public class SortingGUI extends BorderPane {
     private void createAlgorithmBox(){
         algorithmBox.getItems().addAll("Bubble Sort",
                                        "Quick Sort",
-                                       "Insertion Sort");
+                                       "Insertion Sort",
+                                       "Merge Sort");
     }
     
     private AnimationController sorter;
