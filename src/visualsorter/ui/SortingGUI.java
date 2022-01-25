@@ -7,6 +7,7 @@ package visualsorter.ui;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
@@ -27,12 +28,15 @@ public class SortingGUI extends BorderPane {
         bubbleSortBtn = new Button("Bubble Sort");
         quickSortBtn = new Button("Quick Sort");
         insertSortBtn = new Button("Insertion Sort");
+        sortButton = new Button("Sort");
         sorter = new AnimationController(25);
+        algorithmBox = new ChoiceBox();
         
         createSliderBox();
         addHandlers();
+        createAlgorithmBox();
         
-        toolBar.getChildren().addAll(rectSliderBox, generateRectsBtn, bubbleSortBtn, quickSortBtn, insertSortBtn);
+        toolBar.getChildren().addAll(rectSliderBox, generateRectsBtn, algorithmBox, sortButton);
         toolBar.setAlignment(Pos.BOTTOM_CENTER);
         toolBar.setSpacing(10);
         
@@ -69,6 +73,30 @@ public class SortingGUI extends BorderPane {
         insertSortBtn.setOnAction(e -> {
             sorter.insertionSort();
         });
+        
+        sortButton.setOnAction(e -> {
+            String algType = (String) algorithmBox.getValue();
+            switch(algType){
+                case "Bubble Sort":
+                    sorter.bubbleSort();
+                    break;
+                case "Quick Sort":
+                    sorter.quickSort();
+                    break;
+                case "Insertion Sort":
+                    sorter.insertionSort();
+                    break;
+                default:
+                    break;
+                    
+            }
+        });
+    }
+    
+    private void createAlgorithmBox(){
+        algorithmBox.getItems().addAll("Bubble Sort",
+                                       "Quick Sort",
+                                       "Insertion Sort");
     }
     
     private AnimationController sorter;
@@ -76,6 +104,8 @@ public class SortingGUI extends BorderPane {
     private final HBox toolBar;
     
     private final VBox rectSliderBox;
+    
+    private final ChoiceBox algorithmBox;
     
     private Spinner rectSlider;
     
@@ -86,6 +116,8 @@ public class SortingGUI extends BorderPane {
     private Button quickSortBtn;
     
     private Button insertSortBtn;
+    
+    private Button sortButton;
     
     private Label sliderLabel;
     
