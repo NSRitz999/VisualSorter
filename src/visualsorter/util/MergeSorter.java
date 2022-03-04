@@ -69,5 +69,4 @@ public class MergeSorter extends SortingAlgorithm {
             }
         }
     }
-    
 }
