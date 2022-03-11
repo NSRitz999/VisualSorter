@@ -26,6 +26,7 @@ public class InsertionSorter {
     
     public List<ParallelTransition> beginSort(){
         List<ParallelTransition> pList = new ArrayList();
+        
         for(int i = 1; i < rectPane.getChildren().size(); i++){
             int currIndex = i - 1;
             sortingRect saveRect = (sortingRect) rectPane.getChildren().get(i);
@@ -45,6 +46,7 @@ public class InsertionSorter {
                 rectPane.getChildren().add(saveRect);
             pList.add(moveRectangle(saveRect, (i - (currIndex + 1)) * -6));
         }
+        
         for(int i = 0; i < rectPane.getChildren().size(); i++){
             sortingRect rect = (sortingRect) rectPane.getChildren().get(i);
             ParallelTransition pt = new ParallelTransition();
@@ -52,6 +54,7 @@ public class InsertionSorter {
             pt.getChildren().add(ft1);
             pList.add(pt);
         }
+        
         return pList;
     }
     

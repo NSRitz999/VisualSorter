@@ -75,6 +75,7 @@ public class AnimationController extends Pane {
     public class sortingRect extends Rectangle{
         public sortingRect(int dat, int numRects){
             data = dat;
+            currentIndex = 0;
             super.setWidth(5);
             super.setHeight(dat);
         }
@@ -83,6 +84,15 @@ public class AnimationController extends Pane {
             return data;
         }
         
+        public void setIndex(int index){
+            currentIndex = index;
+        }
+        
+        public int getIndex(){
+            return currentIndex;
+        }
+        
+        private int currentIndex;
         private final int data;
     }
     
@@ -117,6 +127,7 @@ public class AnimationController extends Pane {
     public void mergeSort(){
         MergeSorter ms = new MergeSorter(rectPane);
         SequentialTransition sq = new SequentialTransition();
+        displayRectangles();
         sq.getChildren().addAll(ms.beginSort());
         sq.play();
         displayRectangles();
