@@ -17,7 +17,7 @@ import visualsorter.ui.AnimationController.sortingRect;
 
 /**
  *
- * @author Matthew
+ * @author Matthew Sawchuk
  */
 public class MergeSorter extends SortingAlgorithm {
     public MergeSorter(Pane rPane){
@@ -27,22 +27,14 @@ public class MergeSorter extends SortingAlgorithm {
     @Override
     public List<ParallelTransition> beginSort(){
         pList = new ArrayList();
-//        dataList = new ArrayList();
-//        
-//        for(int i = 0; i < rectPane.getChildren().size(); i++){
-//            dataList.add(i, ((sortingRect) rectPane.getChildren().get(i)).getData());
-//        }
-        
-//        displayList(dataList);
-        
+ 
+        //Sets up the indexes of each rectangle
         for(int i = 0; i < rectPane.getChildren().size(); i++){
             ((sortingRect) rectPane.getChildren().get(i)).setIndex(i);
         }
 
         mergeSort(0, rectPane.getChildren().size() - 1);
         
-//        displayList(dataList);
-    
         //Highlights all rects to show completion
         for(int i = 0; i < rectPane.getChildren().size(); i++){
             AnimationController.sortingRect rect = (AnimationController.sortingRect) rectPane.getChildren().get(i);
@@ -86,30 +78,18 @@ public class MergeSorter extends SortingAlgorithm {
         //Initializes both tempL and tempR with the rectPane children
         for(int i = 0; i < sizeLeft; i++){
             tempL.add(rectPane.getChildren().get(left + i));
-//            tempL.add(dataList.get(left + i));
         }
-        System.out.println("Size of rectPane: " + rectPane.getChildren().size() + "; Size of right: " + sizeRight);
         for(int j = 0; j < sizeRight; j++){
-//            tempR.add(dataList.get(mid + 1 + j));
             tempR.add(rectPane.getChildren().get(mid + 1 + j));
         }
         
-        System.out.print("New Left Array: ");
-        displaySortingList(tempL);
-        System.out.print("New Right Array: ");
-        displaySortingList(tempR);
-        
         int i = 0, j = 0, k = left;
-//        System.out.println("Entering while loop!");
         while(i < sizeLeft && j < sizeRight){
-            if( (((sortingRect) tempL.get(i)).getData() < ((sortingRect) tempR.get(j)).getData()) 
-                /* (int) tempL.get(i) < (int) tempR.get(j) */){
-                System.out.print("Condition 1 passed: " + ((sortingRect) tempL.get(i)).getData() + " < " + ((sortingRect) tempR.get(j)).getData() + "\n");
+            if( (((sortingRect) tempL.get(i)).getData() < ((sortingRect) tempR.get(j)).getData())){
                 addNewTransitionSet(k, (sortingRect) tempL.get(i));
                 swap(k, (sortingRect) tempL.get(i));
                 i++;
             } else {
-                System.out.print("Condition 2 passed: " + ((sortingRect) tempL.get(i)).getData() + " > " + ((sortingRect) tempR.get(j)).getData() + "\n");
                 addNewTransitionSet(k, (sortingRect) tempR.get(j));
                 swap(k, (sortingRect) tempR.get(j));
                 j++;
@@ -117,10 +97,8 @@ public class MergeSorter extends SortingAlgorithm {
             
             k++;
         }
-        System.out.println("Exiting while loop!");
         
         while(i < sizeLeft){
-            System.out.println("While i < sizeLeft");
             addNewTransitionSet(k, (sortingRect) tempL.get(i));
             swap(k, (sortingRect) tempL.get(i));
             i++;
@@ -128,77 +106,23 @@ public class MergeSorter extends SortingAlgorithm {
         }
         
         while(j < sizeRight){
-            System.out.println("While j < sizeRight");
             addNewTransitionSet(k, (sortingRect) tempR.get(j));
             swap(k, (sortingRect) tempR.get(j));
             j++;
             k++;
         }
-        displayRectPaneList();
     }
     
     private void addNewTransitionSet(int leftChild, sortingRect rightChild){
-        //Create transitions
         pList.add(super.startSingleTransition(rightChild));
-        System.out.println("Distance: " + getDistance(leftChild, rightChild));
         pList.add(midSingleTransition(leftChild, rightChild));
         pList.add(super.endSingleTransition(rightChild));
-    }
-    
-    private void swapRectangles(int leftChild, int rightChild){
-        sortingRect saveLeft = (sortingRect) rectPane.getChildren().get(leftChild);
-        sortingRect saveRight = (sortingRect) rectPane.getChildren().get(rightChild);
-        
-        System.out.println("\nPerforming swap between: " + saveLeft.getData() + " and " + saveRight.getData());
-        System.out.println("Idexes to be swapped: " + leftChild + ", " + rightChild);
-        
-        //Prevent adding duplicate nodes into rectPane
-        rectPane.getChildren().remove(leftChild);
-        if(rightChild != 0)
-            rectPane.getChildren().remove(rightChild - 1);
-        else
-            rectPane.getChildren().remove(rightChild);
-            
-        //Adding saved nodes into rectPane
-        rectPane.getChildren().add(leftChild, saveRight);
-        rectPane.getChildren().add(rightChild, saveLeft);
-    }
-    
-    private void displayList(ArrayList arrList){
-        System.out.print("Data{");
-        for(int i = 0; i < arrList.size(); i++){
-            System.out.print(arrList.get(i));
-            if(i != arrList.size() - 1)
-                System.out.print(", ");
-        }
-        System.out.print("}\n");
     }
     
     private void swap(int leftChild, sortingRect rightChild){
         rectPane.getChildren().remove(rightChild);
         rectPane.getChildren().add(leftChild, rightChild);
         rightChild.setIndex(leftChild);
-    }
-    
-    private void displaySortingList(ArrayList arrList){
-        System.out.print("Data{");
-        for(int i = 0; i < arrList.size(); i++){
-            System.out.print(((sortingRect) arrList.get(i)).getData());
-            if(i != arrList.size() - 1)
-                System.out.print(", ");
-        }
-        System.out.print("}\n");
-    }
-    
-    private void displayRectPaneList(){
-        System.out.print("Data<rectPane>{");
-        for(int i = 0; i < rectPane.getChildren().size(); i++){
-            System.out.print(((sortingRect) rectPane.getChildren().get(i)).getData());
-            if(i != rectPane.getChildren().size() - 1){
-                System.out.print(", ");
-            }
-        }
-        System.out.print("}\n");
     }
     
     public ParallelTransition midSingleTransition(int index, sortingRect rect){
@@ -222,7 +146,4 @@ public class MergeSorter extends SortingAlgorithm {
     }
     
     private List<ParallelTransition> pList;
-    
-    //temp variables
-    private ArrayList dataList;
 }
