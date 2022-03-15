@@ -14,7 +14,6 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import visualsorter.ui.AnimationController.sortingRect;
 
 /**
  *

@@ -12,8 +12,6 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import visualsorter.ui.AnimationController;
-import visualsorter.ui.AnimationController.sortingRect;
 
 /**
  *
@@ -37,7 +35,7 @@ public class MergeSorter extends SortingAlgorithm {
         
         //Highlights all rects to show completion
         for(int i = 0; i < rectPane.getChildren().size(); i++){
-            AnimationController.sortingRect rect = (AnimationController.sortingRect) rectPane.getChildren().get(i);
+            sortingRect rect = (sortingRect) rectPane.getChildren().get(i);
             
             ParallelTransition pt = new ParallelTransition();
             FillTransition ft1 = new FillTransition(super.HLIGHT_TIME, rect, Color.RED, Color.BLUE);

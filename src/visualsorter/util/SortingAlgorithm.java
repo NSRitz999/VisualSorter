@@ -12,8 +12,6 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import visualsorter.ui.AnimationController;
-import visualsorter.ui.AnimationController.sortingRect;
 
 /**
  *
@@ -61,8 +59,8 @@ public abstract class SortingAlgorithm {
     }
     
     protected ParallelTransition endTransition(int leftChild, int rightChild){
-        AnimationController.sortingRect lhsRect = (AnimationController.sortingRect) rectPane.getChildren().get(leftChild);
-        AnimationController.sortingRect rhsRect = (AnimationController.sortingRect) rectPane.getChildren().get(rightChild);
+        sortingRect lhsRect = (sortingRect) rectPane.getChildren().get(leftChild);
+        sortingRect rhsRect = (sortingRect) rectPane.getChildren().get(rightChild);
         
         FillTransition ft1 = new FillTransition(TIME);
         FillTransition ft2 = new FillTransition(TIME);
@@ -75,7 +73,7 @@ public abstract class SortingAlgorithm {
     }
     
     protected ParallelTransition endSingleTransition(sortingRect sortingRectChild){
-        AnimationController.sortingRect rectChild = (AnimationController.sortingRect) rectPane.getChildren().get(rectPane.getChildren().indexOf(sortingRectChild));
+        sortingRect rectChild = (sortingRect) rectPane.getChildren().get(rectPane.getChildren().indexOf(sortingRectChild));
         FillTransition ft1 = new FillTransition(TIME);
         ft1.setShape(rectChild);
         ft1.setToValue(Color.BLACK);

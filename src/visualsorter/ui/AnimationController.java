@@ -6,20 +6,15 @@
 package visualsorter.ui;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
-import javafx.scene.Node;
-//import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import visualsorter.util.BubbleSorter;
 import visualsorter.util.InsertionSorter;
 import visualsorter.util.MergeSorter;
 import visualsorter.util.QuickSorter;
+import visualsorter.util.sortingRect;
 
 /**
  *
@@ -53,49 +48,6 @@ public class AnimationController extends Pane {
         createRectangles();
     }
     
-    private void createRectangles(){
-        for(int i = 0; i < numOfRects; i++){
-            int newData = generateRandom();
-            sortingRect newRect = new sortingRect(newData, numOfRects);
-            rectPane.getChildren().add(newRect);
-            newRect.setX(i * 6 + 50);
-            newRect.setY(500 - newRect.getHeight());
-            currentData.add(newData);
-        }
-    }
-    
-    private int generateRandom(){
-        int num = (int) (Math.random() * (500 - 1) + 1);
-        while(currentData.contains(num)){
-            num = (int) (Math.random() * (500 - 1) + 1);
-        }
-        return num;
-    }
-    
-    public class sortingRect extends Rectangle{
-        public sortingRect(int dat, int numRects){
-            data = dat;
-            currentIndex = 0;
-            super.setWidth(5);
-            super.setHeight(dat);
-        }
-        
-        public int getData(){
-            return data;
-        }
-        
-        public void setIndex(int index){
-            currentIndex = index;
-        }
-        
-        public int getIndex(){
-            return currentIndex;
-        }
-        
-        private int currentIndex;
-        private final int data;
-    }
-    
     public void bubbleSort(){
         displayRectangles();
         BubbleSorter bs = new BubbleSorter(rectPane);
@@ -113,24 +65,36 @@ public class AnimationController extends Pane {
     }
     
     public void insertionSort(){
-        System.out.print("Pre-");
-        displayRectangles();
         InsertionSorter is = new InsertionSorter(rectPane);
         SequentialTransition sq = new SequentialTransition();
         sq.getChildren().addAll(is.beginSort());
         sq.play();
-        System.out.print("Post-");
-        displayRectangles();
-        
     }
     
     public void mergeSort(){
         MergeSorter ms = new MergeSorter(rectPane);
         SequentialTransition sq = new SequentialTransition();
-        displayRectangles();
         sq.getChildren().addAll(ms.beginSort());
         sq.play();
-        displayRectangles();
+    }
+    
+    private void createRectangles(){
+        for(int i = 0; i < numOfRects; i++){
+            int newData = generateRandom();
+            sortingRect newRect = new sortingRect(newData, numOfRects);
+            rectPane.getChildren().add(newRect);
+            newRect.setX(i * 6 + 50);
+            newRect.setY(500 - newRect.getHeight());
+            currentData.add(newData);
+        }
+    }
+    
+    private int generateRandom(){
+        int num = (int) (Math.random() * (500 - 1) + 1);
+        while(currentData.contains(num)){
+            num = (int) (Math.random() * (500 - 1) + 1);
+        }
+        return num;
     }
     
     private void displayRectangles(){
